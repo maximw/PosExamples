@@ -1,6 +1,6 @@
 # PieceofScript examples
 
-Example scenarios of <a href="https://github.com/maximw/PieceofScript">PieceofScript</a>. 
+Example scenarios for <a href="https://github.com/maximw/PieceofScript">PieceofScript</a>. 
 
 ### Installation
 You need have installed PHP 7.2 or higer.
@@ -43,7 +43,7 @@ php pos.phar run ./RickAndMorty/20MinutesTest.pos -r shlapi_report.html -vvv
 
 ### Virustotal
 
-<a href="https://www.virustotal.com/">Pastery</a> analyzes suspicious files and URLs to detect types of malware. <a href="https://developers.virustotal.com/reference">API documentation</a>.
+<a href="https://www.virustotal.com/">Virustotal</a> analyzes suspicious files and URLs to detect types of malware. <a href="https://developers.virustotal.com/reference">API documentation</a>.
 
 I wrote tests only for public part of API, except Comments endpoints.
 
