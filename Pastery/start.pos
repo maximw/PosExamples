@@ -1,0 +1,69 @@
+require "globals.pos"
+
+Testcase Delete all pastes
+    Get all pastes
+    var $pastes = $response.body.pastes
+    foreach $pastes; $paste
+        if @paste.id
+            Delete paste $paste.id
+
+// That test case will be called from other test cases
+Testcase Create paste $paste
+    Create paste $paste
+    assert @response.body.id == "String"
+    assert @response.body.title && $response.body.title == $paste.title
+    assert @response.body.language == "String"
+    assert @response.body.duration == "Number"
+    var $paste = $response.body
+
+// Create and read
+Testcase Create and read
+    var $newPaste = NewPaste()
+
+    run Create paste $newPaste
+
+    Get paste $newPaste.id
+
+    assert @response.body.pastes.0.id && $response.body.pastes.0.id == $newPaste.id
+    assert @response.body.pastes.0.title && $response.body.pastes.0.title == $newPaste.title
+    assert @response.body.pastes.0.language && $response.body.pastes.0.language == $newPaste.language
+    assert @response.body.pastes.0.duration && $response.body.pastes.0.duration == $newPaste.duration
+
+// Create, read, read, read and try to read again
+Testcase Paste max views
+    var $maxViews = 3
+    var $newPaste = NewPaste()
+    var $newPaste.max_views = $maxViews
+
+    run Create paste $newPaste
+
+    var $i = 0
+    while $i < $maxViews
+        Get paste $newPaste.id
+        assert @response.body.pastes == "Array" && size($response.body.pastes) == 1
+        var $i = $i + 1
+        sleep 10
+
+    Get paste $newPaste.id
+    assert @response.body.pastes == "Array" && size($response.body.pastes) == 0
+
+// Create, read, wait and try to read again
+Testcase Paste duration
+    var $newPaste = NewPaste()
+    var $newPaste.duration = 1
+
+    run Create paste $newPaste
+
+    Get paste $newPaste.id
+    assert @response.body.pastes == "Array" && size($response.body.pastes) == 1
+
+    sleep 60
+
+    Get paste $newPaste.id
+    assert @response.body.pastes == "Array" && size($response.body.pastes) == 0
+
+// Let's make a fresh start
+run Delete all pastes 
+run
+
+

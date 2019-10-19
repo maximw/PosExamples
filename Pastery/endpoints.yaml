@@ -1,0 +1,37 @@
+Get all pastes:
+    method: "GET"
+    url: $url
+    query:
+        api_key: $apiKey        
+    after: 
+        - assert $response.code == 200
+
+Get paste $pasteId:
+    method: "GET"
+    url: $url + $pasteId + "/"
+    query:
+        api_key: $apiKey
+    after: 
+        - assert $response.code == 200
+        
+Create paste $paste:
+    method: "POST"
+    url: $url
+    query:
+        api_key: $apiKey
+        title: if(@paste.title, $paste.title, "")
+        duration: if(@paste.duration, $paste.duration, "")
+        language: if(@paste.language, $paste.language, "")
+        max_views: if(@paste.max_views, $paste.max_views, 0)
+    format: "raw"
+    data: $paste.text
+    after:
+        - assert $response.code == 200
+        
+Delete paste $pasteId:
+    method: "DELETE"
+    url: $url + $pasteId + "/"
+    query:
+        api_key: $apiKey
+    after:
+        - assert $response.code == 200

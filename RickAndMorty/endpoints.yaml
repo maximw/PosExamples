@@ -1,0 +1,61 @@
+Get base urls:
+    method: "GET"
+    url: $baseDomain
+    after: 
+        - assert $response.code == 200
+        
+Get characters $charactersUrl:
+    method: "GET"
+    url: $charactersUrl
+    after:
+        - assert $response.code == 200
+        
+Get single character $id: 
+    method: "GET"
+    url: $baseDomain + "character/" + toString($id)
+    after:
+        - assert $response.code == 200       
+     
+Get some characters $ids: 
+    method: "GET"
+    url: $baseDomain + "character/" + implode($ids, ",")
+    after:
+        - assert $response.code == 200 
+     
+     
+Get locations $locationsUrl:
+    method: "GET"
+    url: $locationsUrl
+    after:
+        - assert $response.code == 200
+
+Get single location $id:
+    method: "GET"
+    url: $baseDomain + "location/" + toString($id)
+    after:
+        - assert $response.code == 200
+
+Get some locations $ids:
+    method: "GET"
+    url: $baseDomain + "location/" + implode($ids, ",")
+    after:
+        - assert $response.code == 200
+
+
+Get episodes $episodesUrl:
+    method: "GET"
+    url: $episodesUrl
+    after:
+        - assert $response.code == 200
+
+Get single episode $id:
+    method: "GET"
+    url: $baseDomain + "episode/" + toString($id)
+    after:
+        - assert $response.code == 200
+
+Get some episodes $ids:
+    method: "GET"
+    url: $baseDomain + "episode/" + implode($ids, ",")
+    after:
+        - assert $response.code == 200

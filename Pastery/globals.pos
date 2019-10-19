@@ -1,0 +1,6 @@
+const $url = "https://www.pastery.net/api/paste/"
+const $apiKey = "" // Don't forget to add your own key
+
+if $apiKey == ""
+    print "You need to set API key. Please, visit https://www.pastery.net/login/"
+    cancel

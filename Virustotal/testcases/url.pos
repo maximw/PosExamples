@@ -1,0 +1,26 @@
+testcase Check url $resource report
+    var $waitingFlag = true
+    while $waitingFlag
+        Get url $resource report
+        must $response.code == 200 || $response.code == 204
+        must @response.body.response_code == "Number"
+        if $response.body.response_code != 1
+            sleep 60
+
+        if $response.body.response_code == 1
+            assert similar($response.body, UrlReport())
+            assert @response.body.scans == "Array"
+            var $waitingFlag = false
+            foreach $response.body.scans; $item
+                assert similar($item, UrlReportItem())
+
+
+
+testcase Urls
+    run Check url {"http://virustotal.com"} report
+
+    Scan url {"http://habr.com"}
+    assert identical($response.body, UrlScanResponse())
+    var $scanId = $response.body.scan_id
+
+    run Check url $scanId report

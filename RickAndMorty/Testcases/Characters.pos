@@ -1,0 +1,35 @@
+Testcase Characters
+    import $charactersUrl
+	var $characterModel = CharacterComparisonModel()
+	var $pagesCount = 0
+	var $charactersIds = array() // Collect id of random characters from every page for further testing
+	while $charactersUrl != "" && $pagesCount < $maxTestingPages
+		Get characters $charactersUrl
+		assert @response.body.info.count
+		assert @response.body.info.pages
+		assert @response.body.info.next
+		assert @response.body.info.prev
+		var $charactersUrl = if($response.code == 200, $response.body.info.next, "")
+		foreach $response.body.results; $result
+			assert similar($result, $characterModel)
+		var $pagesCount = $pagesCount + 1
+		var $randomIndex = faker\integer(0, size($response.body.results) - 1)
+		var $charactersIds = append($charactersIds, $response.body.results[$randomIndex].id)
+
+	run Get characters with $charactersIds one by one
+	run Get all characters with $charactersIds
+
+
+Testcase Get characters with $ids one by one
+    var $characterModel = CharacterComparisonModel()
+	foreach $ids; $characterId
+		Get single character $characterId
+		assert similar($response.body, $characterModel)
+
+
+Testcase Get all characters with $ids
+    var $characterModel = CharacterComparisonModel()
+	Get some characters $ids
+	assert size($response.body) == size($ids)
+	foreach $response.body; $character
+		assert similar($character, $characterModel)

@@ -1,0 +1,34 @@
+Testcase Locations
+    import $locationsUrl
+	var $locationModel = locationComparisonModel()
+	var $pagesCount = 0
+	var $locationsIds = array() // Collect id of random locations from every page
+	while $locationsUrl != "" && $pagesCount < $maxTestingPages
+		Get locations $locationsUrl
+		assert @response.body.info.count
+		assert @response.body.info.pages
+		assert @response.body.info.next
+		assert @response.body.info.prev
+		var $locationsUrl = if($response.code == 200, $response.body.info.next, "")
+		foreach $response.body.results; $result
+			assert similar($result, $locationModel)
+		var $pagesCount = $pagesCount + 1
+		var $randomIndex = faker\integer(0, size($response.body.results) - 1)
+		var $locationsIds = append($locationsIds, $response.body.results[$randomIndex].id)
+
+	run Get locations with $locationsIds one by one
+	run Get all locations with $locationsIds
+
+
+Testcase Get locations with $ids one by one
+    var $locationModel = locationComparisonModel()
+	foreach $ids; $id
+		Get single location $id
+		assert similar($response.body, $locationModel)
+
+Testcase Get all locations with $ids
+    var $locationModel = locationComparisonModel()
+	Get some locations $ids
+	assert size($response.body) == size($ids)
+	foreach $response.body; $location
+		assert similar($location, $locationModel)

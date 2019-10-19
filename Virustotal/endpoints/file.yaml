@@ -1,0 +1,50 @@
+Get file $fileHash report:
+    method: "GET"
+    url: $baseUrl + "/file/report"
+    query:
+        apikey: $apiKey
+        resource: $fileHash
+    before:
+        - run Check limits    
+
+Scan file $fileName:
+    method: "POST"
+    url: $baseUrl + "/file/scan"
+    format: "multipart"
+    data:
+        apikey:
+            value: $apiKey
+        file:
+            file: $fileName
+    before:
+        - run Check limits
+
+Get upload url:
+    method: "GET"
+    url: $baseUrl + "/file/scan/upload_url"
+    query:
+        apikey: $apiKey
+    before:
+        - run Check limits
+        
+Upload file $fileName to $uploadUrl:
+    method: "POST"
+    url: $uploadUrl
+    format: "multipart"
+    data:
+        apikey:
+            value: $apiKey
+        file:
+            file: $fileName
+    before:
+        - run Check limits
+
+Rescan file $fileHash:
+    method: "POST"
+    url: $baseUrl + "/file/rescan"
+    format: "form"
+    data:
+        apikey: $apiKey
+        resource: $fileHash
+    before:
+        - run Check limits

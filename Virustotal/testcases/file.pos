@@ -1,0 +1,45 @@
+testcase Check file $resource report
+    var $waitingFlag = true
+    while $waitingFlag
+        Get file $resource report
+        must $response.code == 200 || $response.code == 204
+        must @response.body.response_code == "Number"
+        if $response.body.response_code != 1
+            sleep 60
+
+        if $response.body.response_code == 1
+            assert similar($response.body, FileReport())
+            assert @response.body.scans == "Array"
+            var $waitingFlag = false
+            foreach $response.body.scans; $item
+                if $item.detected
+                    assert identical($item, FileReportPositiveItem(), false)
+                if !$item.detected
+                    assert identical($item, FileReportNegativeItem(), false)
+
+
+testcase Files
+    Scan file {"./files/hiddeninput.exe"}
+    must $response.code == 200
+    assert similar($response.body, FileScanResponse())
+    var $scanId = $response.body.scan_id
+    var $sha256 = $response.body.sha256
+    var $sha1 = $response.body.sha1
+    var $md5 = $response.body.md5
+
+    run Check file $scanId report
+    run Check file $sha256 report
+    run Check file $sha1 report
+    run Check file $md5 report
+
+    Get upload url
+    assert @response.body.upload_url == "String"
+    if @response.body.upload_url
+        Upload file {"./files/hiddeninput.exe"} to $response.body.upload_url
+
+    Rescan file $sha1
+    assert identical($response.body, FileReScanResponse())
+    Rescan file $sha256
+    assert identical($response.body, FileReScanResponse())
+    Rescan file $md5
+    assert identical($response.body, FileReScanResponse())

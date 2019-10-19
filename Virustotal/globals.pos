@@ -1,0 +1,18 @@
+const $baseUrl = "https://www.virustotal.com/vtapi/v2"
+const $apiKey = ""
+
+if $apiKey == ""
+    print "You need to set API key. Please, visit https://www.virustotal.com/#/join-us"
+    cancel
+
+
+// That testcase controls API limit 4 reqs/min
+const $requestLimit = 4
+const $requestTimeout = 60
+var $requestsCount = 0
+
+Testcase Check limits
+    let $requestsCount = $requestsCount + 1
+    if $requestsCount > $requestLimit
+        let $requestsCount = 0
+        sleep $requestTimeout

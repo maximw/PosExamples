@@ -1,0 +1,14 @@
+require "globals.pos"
+include "Testcases/*.pos"
+
+Get base urls
+if $response.code == 429
+	print "Too many requests per day. Limit is 10000 request daily."
+	cancel
+	
+// That global variables are used in Endpoints, see endpoints.yaml
+var $charactersUrl = $response.body.characters
+var $locationsUrl = $response.body.locations
+var $episodesUrl = $response.body.episodes
+
+run		

@@ -1,0 +1,19 @@
+Get domain $domain report:
+    method: "GET"
+    url: $baseUrl + "/domain/report"
+    query:
+        apikey: $apiKey
+        domain: $domain
+    before:
+        - run Check limits
+
+Get IP $ip report:
+    method: "GET"
+    url: $baseUrl + "/ip-address/report"
+    query:
+        apikey: $apiKey
+        ip: $ip
+    before:
+        - run Check limits
+
+

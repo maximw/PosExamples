@@ -1,0 +1,7 @@
+NewPaste:
+    body:
+        title:	Faker\text(16)
+        text: Faker\text(200)
+        duration: 60
+        max_views: 0 
+        

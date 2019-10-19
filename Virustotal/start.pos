@@ -1,0 +1,4 @@
+require "globals.pos"
+include "./testcases/*.pos"
+
+run

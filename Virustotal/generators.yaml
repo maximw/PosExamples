@@ -1,0 +1,82 @@
+# Common fields of scan report for all endpoints
+BaseReport:
+    body:
+        response_code: 1,
+        verbose_msg: "Scan finished, scan information embedded in this object"
+        scan_id: "52d3df0ed60c46f336c131bf2ca454f73bafdc4b04dfa2aea80746f5ba9e6d1c-1273894724"
+        permalink: "https://www.virustotal.com/file/52d3df0ed60c46f336c131bf2ca454f73bafdc4b04dfa2aea80746f5ba9e6d1c/analysis/1273894724/"
+        scan_date: "2010-05-15 03:38:44"
+        positives: 40
+        total: 40
+
+# Common fields of scan details for all endpoints
+BaseReportItem:
+    body:
+        detected: true
+        result: "Generic.dx!rkx"
+
+# Fields of report for file scanning
+FileReport:
+    body: BaseReport()
+    replace:
+        resource: "99017f6eebbac24f351415dd410d522d"
+        md5: "99017f6eebbac24f351415dd410d522d"
+        sha1: "4d1740485713a2ab3a4f5822a01f645fe8387f92"
+        sha256: "52d3df0ed60c46f336c131bf2ca454f73bafdc4b04dfa2aea80746f5ba9e6d1c"
+        
+FileReportPositiveItem:
+    body: BaseReportItem()
+    replace:
+        version: "5.400.0.1158"
+        update: 20100515
+
+FileReportNegativeItem:
+    body: BaseReportItem()
+    replace:
+        version: "5.400.0.1158"
+        update: 20100515
+        result: null
+        
+        
+FileScanResponse:
+    body:
+        permalink: "https://www.virustotal.com/file/d140c...244ef892e5/analysis/1359112395/"
+        resource: "d140c244ef892e59c7f68bd0c6f74bb711032563e2a12fa9dda5b760daecd556"
+        response_code: 1
+        scan_id: "d140c244ef892e59c7f68bd0c6f74bb711032563e2a12fa9dda5b760daecd556-1359112395"
+        verbose_msg: "Scan request successfully queued, come back later for the report"
+        sha256: "d140c244ef892e59c7f68bd0c6f74bb711032563e2a12fa9dda5b760daecd556"
+        sha1: "4d1740485713a2ab3a4f5822a01f645fe8387f92"
+
+FileReScanResponse:
+    body:
+        response_code: 1
+        scan_id: "54bc950d46a0d1aa72048a17c8275743209e6c17bdacfc4cb9601c9ce3ec9a71-1390472785"
+        permalink: "https://www.virustotal.com/file/__sha256hash__/analysis/1390472785/"
+        sha256: "54bc950d46a0d1aa72048a17c8275743209e6c17bdacfc4cb9601c9ce3ec9a71"
+        resource: "7657fcb7d772448a6d8504e4b20168b8"
+        
+RescanResult:
+    body: ScanResult()
+    remove:
+        verbose_msg: true
+        
+
+UrlReport:
+    body: BaseReport()
+    replace:
+        url: "http://www.virustotal.com/"
+
+UrlReportItem:
+    body: BaseReportItem()
+    
+UrlScanResponse:
+    body:
+        response_code: 1
+        verbose_msg: "Scan request successfully queued, come back later for the report"
+        scan_id: "1db0ad7dbcec0676710ea0eaacd35d5e471d3e11944d53bcbd31f0cbd11bce31-1320752364"
+        scan_date: "2011-11-08 11:39:24"
+        url: "http://www.virustotal.com/"
+        permalink: "http://www.virustotal.com/url/1db0ad7dbcec0676710ea0eaacd35d5e471d3e11944d53bcbd31f0cbd11bce31/analysis/1320752364/"
+        resource: "http://www.virustotal.com/"
+    

@@ -1,0 +1,19 @@
+Get url $resource report {{$scan = 1}}:
+    method: "GET"
+    url: $baseUrl + "/url/report"
+    query:
+        apikey: $apiKey
+        resource: $resource
+        scan: $scan
+    before:
+        - run Check limits
+
+Scan url $url:
+    method: "POST"
+    url: $baseUrl + "/url/scan"
+    format: "form"
+    data:
+        apikey: $apiKey
+        url: $url
+    before:
+        - run Check limits

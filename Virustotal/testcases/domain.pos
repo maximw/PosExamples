@@ -1,0 +1,6 @@
+testcase Domain
+    Get domain {"habr.com"} report
+    assert $response.code == 200
+
+    Get IP {"8.8.8.8"} report
+    assert $response.code == 200

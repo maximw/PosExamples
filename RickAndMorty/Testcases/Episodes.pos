@@ -1,0 +1,34 @@
+Testcase Episodes
+    import $episodesUrl
+	var $episodeModel = EpisodeComparisonModel()
+	var $pagesCount = 0
+	var $episodesIds = array() // Collect id of random episodes from every page
+	while $episodesUrl != "" && $pagesCount < $maxTestingPages
+		Get episodes $episodesUrl
+		assert @response.body.info.count
+		assert @response.body.info.pages
+		assert @response.body.info.next
+		assert @response.body.info.prev
+		var $episodesUrl = if($response.code == 200, $response.body.info.next, "")
+		foreach $response.body.results; $result
+			assert similar($result, $episodeModel)
+		var $pagesCount = $pagesCount + 1
+		var $randomIndex = faker\integer(0, size($response.body.results) - 1)
+		var $episodesIds = append($episodesIds, $response.body.results[$randomIndex].id)
+
+	run Get episodes with $episodesIds one by one
+	run Get all episodes with $episodesIds
+
+
+Testcase Get episodes with $ids one by one
+    var $episodeModel = EpisodeComparisonModel()
+	foreach $ids; $id
+		Get single episode $id
+		assert similar($response.body, $episodeModel)
+
+Testcase Get all episodes with $ids
+    var $episodeModel = EpisodeComparisonModel()
+	Get some episodes $ids
+	assert size($response.body) == size($ids)
+	foreach $response.body; $episode
+		assert similar($episode, $episodeModel)

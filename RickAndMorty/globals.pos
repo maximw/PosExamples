@@ -1,0 +1,2 @@
+const $baseDomain = "https://rickandmortyapi.com/api/"
+const $maxTestingPages = 2 //Limit number of tested pages
